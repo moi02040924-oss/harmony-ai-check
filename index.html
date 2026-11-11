@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI 수업 시작 전 체크</title>
+<style>
+:root{
+  --g:#1F4A35; --g2:#2E7D5B; --n:#1F3A5F; --gray:#555555; --red:#B3261E; --gold:#8A5E12;
+  --bg:#F3F7F5; --line:#C9D6CF; --card:#FFFFFF; --text:#1d1d1d;
+}
+*{box-sizing:border-box}
+html{font-size:20px}
+body{margin:0;background:var(--bg);color:var(--text);
+  font-family:"맑은 고딕","Malgun Gothic","Apple SD Gothic Neo",sans-serif;
+  line-height:1.6;word-break:keep-all;-webkit-text-size-adjust:100%}
+.wrap{max-width:640px;margin:0 auto;padding:16px}
+header.hero{background:var(--g);color:#fff;border-radius:16px;padding:22px 20px;margin-bottom:16px}
+.hero .tag{display:inline-block;background:#fff;color:var(--g);font-weight:700;font-size:.8rem;padding:2px 12px;border-radius:20px}
+.hero h1{font-size:1.5rem;line-height:1.3;margin:10px 0 6px}
+.hero p{margin:0;font-size:1rem;opacity:.95}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px}
+.card h2{font-size:1.15rem;color:var(--g);margin:0 0 8px}
+.card p{margin:6px 0}
+.promise{list-style:none;padding:0;margin:8px 0 0}
+.promise li{padding:8px 0 8px 30px;position:relative;border-top:1px dashed var(--line)}
+.promise li:first-child{border-top:0}
+.promise li:before{content:"✓";position:absolute;left:4px;top:8px;color:var(--g2);font-weight:700}
+button{font:inherit;cursor:pointer}
+.btn{display:block;width:100%;min-height:58px;border:0;border-radius:14px;background:var(--g);color:#fff;font-size:1.1rem;font-weight:700;padding:12px 16px}
+.btn:disabled{background:#9db3a8;cursor:not-allowed}
+.btn.sub{background:#fff;color:var(--g);border:2px solid var(--g)}
+.btn.small{min-height:48px;font-size:1rem}
+.row{display:flex;gap:10px;margin-top:16px}
+.row .btn{flex:1}
+.progress{height:10px;background:#dfe8e3;border-radius:6px;overflow:hidden;margin-bottom:6px}
+.progress i{display:block;height:100%;width:0;background:var(--g2);transition:width .25s}
+.pcount{font-size:.85rem;color:var(--gray);margin-bottom:10px}
+.part{display:inline-block;font-size:.8rem;color:var(--n);background:#e6edf5;border-radius:12px;padding:1px 10px;margin-bottom:6px}
+.q{font-size:1.2rem;font-weight:700;color:var(--g);margin:2px 0 4px}
+.hint{font-size:.85rem;color:var(--gray);margin:0 0 10px}
+.opts{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+.opt{display:flex;align-items:center;gap:12px;min-height:58px;padding:12px 14px;border:2px solid var(--line);border-radius:14px;background:#fff;cursor:pointer}
+.opt:focus-within{outline:3px solid #86b7a0}
+.opt input{position:absolute;opacity:0;width:1px;height:1px}
+.mark{flex:0 0 26px;height:26px;border:2px solid var(--gray);border-radius:50%;display:inline-block;position:relative}
+.multi .mark{border-radius:6px}
+.opt.on{border-color:var(--g2);background:#eaf4ee}
+.opt.on .mark{border-color:var(--g2);background:var(--g2)}
+.opt.on .mark:after{content:"";position:absolute;left:7px;top:2px;width:7px;height:13px;border:solid #fff;border-width:0 3px 3px 0;transform:rotate(45deg)}
+textarea{width:100%;min-height:110px;font:inherit;padding:12px;border:2px solid var(--line);border-radius:12px;resize:vertical}
+.warn{color:var(--red);font-size:.9rem;margin-top:6px;min-height:1.2em}
+.note{font-size:.85rem;color:var(--gray)}
+.level{border-radius:16px;padding:18px;color:#fff;margin-bottom:14px}
+.level.l1{background:var(--g2)} .level.l2{background:var(--n)} .level.l3{background:var(--g)}
+.level .lv{font-size:.85rem;opacity:.9}
+.level h2{color:#fff;font-size:1.5rem;margin:2px 0 6px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0}
+.chip{background:#eaf4ee;border:1px solid var(--line);border-radius:16px;padding:2px 12px;font-size:.9rem}
+ul.plain{margin:6px 0 0;padding-left:1.2rem}
+ul.plain li{margin:4px 0}
+.box{border:2px solid var(--gold);border-radius:12px;padding:12px 14px;background:#fffaf0}
+.sendbox{border:2px solid var(--g2);border-radius:14px;padding:14px}
+.chk{display:flex;gap:10px;align-items:flex-start;margin:8px 0}
+.chk input{width:26px;height:26px;margin-top:3px;flex:0 0 26px}
+.hidden{display:none !important}
+footer{font-size:.8rem;color:var(--gray);text-align:center;margin:10px 0 24px}
+pre.sum{white-space:pre-wrap;word-break:break-all;background:#f6f6f6;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:.8rem;margin:8px 0}
+@media (min-width:700px){ html{font-size:19px} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- 시작 화면 -->
+<section id="start">
+  <header class="hero">
+    <span class="tag" id="courseTag">AI 수업</span>
+    <h1>시작 전에,<br>여러분의 AI 경험을 알려 주세요</h1>
+    <p>정답이 있는 시험이 아니에요. 오늘 수업을 여러분께 맞추기 위한 <b>5분 체크</b>입니다.</p>
+  </header>
+  <div class="card">
+    <h2>이렇게 사용돼요</h2>
+    <ul class="promise">
+      <li>점수로 평가하지 않아요. <b>수업 속도와 내용</b>을 맞추는 데만 써요.</li>
+      <li><b>이름·전화번호·이메일은 묻지 않아요.</b> 쓰지 마세요.</li>
+      <li>모르면 "잘 모르겠어요"를 골라도 괜찮아요.</li>
+      <li>질문은 11개, 선택해서 누르기만 하면 돼요.</li>
+    </ul>
+  </div>
+  <button class="btn" id="startBtn">시작하기</button>
+  <p class="note" style="margin-top:12px">※ 강사가 자체 제작한 체크이며 공식 검사가 아닙니다.</p>
+</section>
+
+<!-- 질문 화면 -->
+<section id="quiz" class="hidden">
+  <div class="progress"><i id="bar"></i></div>
+  <div class="pcount" id="pcount"></div>
+  <div class="card">
+    <span class="part" id="part"></span>
+    <div class="q" id="qtitle"></div>
+    <p class="hint" id="qhint"></p>
+    <div id="qbody"></div>
+    <div class="warn" id="warn" role="alert"></div>
+  </div>
+  <div class="row">
+    <button class="btn sub" id="prevBtn">이전</button>
+    <button class="btn" id="nextBtn">다음</button>
+  </div>
+</section>
+
+<!-- 결과 화면 -->
+<section id="result" class="hidden">
+  <div class="level" id="levelBox">
+    <div class="lv" id="lvLabel"></div>
+    <h2 id="lvName"></h2>
+    <div id="lvDesc"></div>
+  </div>
+  <div class="card">
+    <h2>수업에서는 이렇게 도와드려요</h2>
+    <ul class="plain" id="lvPlan"></ul>
+  </div>
+  <div class="card" id="personal">
+    <h2>말씀해 주신 것 반영</h2>
+    <div id="personalBody"></div>
+  </div>
+
+  <div class="card">
+    <h2>강사에게 전달하기</h2>
+    <div id="sendArea">
+      <div class="sendbox">
+        <p>전달되는 것: <b>선택한 답과 단계</b>, 그리고 적어 주신 한 줄. 이름·연락처는 전달되지 않아요.</p>
+        <label class="chk"><input type="checkbox" id="agree"><span>위 내용이 강사에게 전달되는 것에 동의해요.</span></label>
+        <button class="btn" id="sendBtn" disabled>강사에게 보내기</button>
+        <div class="warn" id="sendMsg" role="status"></div>
+      </div>
+    </div>
+    <div id="manualArea" class="hidden">
+      <p>이 화면을 <b>강사님께 보여 주시거나</b>, 아래 요약을 복사해서 전해 주세요.</p>
+      <pre class="sum" id="sumText"></pre>
+      <button class="btn small" id="copyBtn">요약 복사하기</button>
+      <div class="warn" id="copyMsg" role="status"></div>
+    </div>
+  </div>
+  <button class="btn sub" id="againBtn">처음부터 다시 하기</button>
+</section>
+
+<footer>커리어숲 · 수업 전 체크 · 개인정보를 받지 않습니다</footer>
+</div>
+
+<script>
+/* ===== 강사가 고치는 곳 ===== */
+const CONFIG = {
+  courseTitle: "하모니학교 AI 수업",   // 화면 상단에 표시
+  session: "1회차",                     // 회차 표시(수집 시 같이 기록)
+  SUBMIT_URL: ""                        // 응답을 모을 구글 앱스 스크립트 주소. 비워 두면 '화면 보여주기·복사' 방식으로 동작
+};
+/* ========================== */
+
+const Q = [
+ {id:"q1",part:"AI 경험",type:"single",title:"AI(챗GPT·제미나이 같은 대화형 AI)를 얼마나 써 보셨어요?",
+  options:[["a","써 본 적이 없어요",0],["b","들어보았고, 한두 번 눌러 봤어요",1],["c","가끔 써요 (한 달에 몇 번)",2],["d","거의 매일 써요",3]]},
+ {id:"q2",part:"AI 경험",type:"multi",title:"써 본 적 있는 AI를 모두 골라 주세요",hint:"여러 개 고를 수 있어요",
+  options:[["chatgpt","챗GPT"],["gemini","제미나이"],["claude","클로드"],["kr","네이버 클로바X·뤼튼 등 국내 서비스"],["media","그림·음악·영상을 만드는 AI"],["none","써 본 적 없어요",null,true]],
+  score:n=>n>=4?3:n>=2?2:n===1?1:0},
+ {id:"q3",part:"AI 경험",type:"multi",title:"AI에게 이런 일을 시켜 본 적이 있나요?",hint:"여러 개 고를 수 있어요",
+  options:[["ask","궁금한 것 물어보기"],["write","글 쓰기·고치기"],["sum","긴 글 요약하기"],["trans","번역하기"],["img","그림·이미지 만들기"],["file","사진·문서를 올려서 물어보기"],["auto","반복되는 일을 자동으로 시키기"],["none","해 본 적 없어요",null,true]],
+  score:n=>n>=5?3:n>=3?2:n>=1?1:0},
+ {id:"q4",part:"AI 경험",type:"single",title:"AI에게 질문할 때 보통 어떻게 쓰세요?",
+  options:[["a","어떻게 써야 할지 몰라요",0],["b","짧게 한 줄로 물어봐요",1],["c","상황을 자세히 설명해요",2],["d","역할·형식까지 정하고, 마음에 안 들면 고쳐서 다시 물어봐요",3]]},
+ {id:"q5",part:"준비 상태",type:"single",title:"오늘 수업에 가져오신 기기는요?",
+  options:[["phone","스마트폰만 있어요"],["pc","노트북이 있어요"],["tab","태블릿이 있어요"],["none","아직 못 가져왔어요"]]},
+ {id:"q6",part:"준비 상태",type:"single",title:"구글(지메일) 계정이 있으세요?",hint:"비밀번호는 어디에도 적지 마세요. 있는지만 알려 주세요.",
+  options:[["ok","있고, 로그인할 수 있어요"],["forgot","있는데 비밀번호가 기억나지 않아요"],["no","없어요"],["unknown","잘 모르겠어요"]]},
+ {id:"q7",part:"준비 상태",type:"single",title:"휴대폰·컴퓨터에 글자 입력은 어떠세요?",
+  options:[["easy","편해요"],["slow","느리지만 할 수 있어요"],["voice","말로 입력하는 게 편해요"],["hard","많이 어려워요"]]},
+ {id:"q8",part:"마음",type:"multi",max:2,title:"AI에 대해 가장 걱정되는 점은요?",hint:"2개까지 고를 수 있어요",
+  options:[["wrong","틀린 답을 줄까 봐요"],["privacy","내 정보가 새어 나갈까 봐요"],["hard","너무 어려울까 봐요"],["fake","가짜 정보·사기가 걱정돼요"],["job","일자리가 없어질까 봐요"],["cost","돈이 들까 봐요"],["none","걱정 없어요",null,true]]},
+ {id:"q9",part:"마음",type:"multi",max:2,title:"이번 수업에서 가장 해 보고 싶은 것은요?",hint:"2개까지 고를 수 있어요",
+  options:[["daily","일상 정보 (요리·건강·여행)"],["write","글쓰기·자기소개서"],["job","일자리·재취업 준비"],["media","사진·영상·그림 만들기"],["biz","가게·사업 홍보"],["family","가족·손주와 소통"],["work","업무 정리·자동화"],["other","잘 모르겠어요, 보고 싶어요",null,true]]},
+ {id:"q10",part:"마음",type:"single",title:"수업 속도는 어느 쪽이 편하세요?",
+  options:[["slow","천천히, 하나씩 따라 하고 싶어요"],["mid","보통 속도가 좋아요"],["fast","빠르게, 많이 알려 주세요"]]},
+ {id:"q11",part:"마음",type:"text",title:"궁금한 점이나 바라는 점을 한 줄로 적어 주세요",hint:"선택이에요. 이름·전화번호·이메일은 쓰지 마세요."}
+];
+
+const LEVELS = {
+ 1:{cls:"l1",name:"새싹 단계",desc:"AI를 이제 막 만나는 단계예요. 괜찮아요. 처음부터 같이 걸어요.",
+    plan:["AI를 켜고, 말을 걸고, 답을 읽는 것부터 화면을 보며 같이 따라 해요.","어려운 말은 쉬운 말로 풀어 드리고, 한 번에 한 가지씩만 해요.","오늘 안에 '내가 시킨 일이 되는 경험'을 한 번 만들어요."]},
+ 2:{cls:"l2",name:"줄기 단계",desc:"써 본 경험이 있는 단계예요. 질문하는 방법을 조금 배우면 훨씬 좋아져요.",
+    plan:["질문 틀(상황 → 원하는 것 → 형식)을 배워서 답을 더 쓸모 있게 만들어요.","마음에 안 드는 답을 '고쳐서 다시 묻는' 연습을 해요.","내 일과 생활에 바로 쓸 수 있는 예시로 실습해요."]},
+ 3:{cls:"l3",name:"나무 단계",desc:"이미 잘 쓰고 계신 단계예요. 이제는 자료와 반복 업무를 다루는 쪽으로 가요.",
+    plan:["사진·문서를 활용하고, 내 말투와 기준을 알려 주는 맞춤 사용법을 해 봐요.","AI 답을 믿기 전에 확인하는 방법과 개인정보 지키는 법을 점검해요.","반복되는 일을 줄이는 방법을 맛보고, 다른 분께 알려 줄 수 있는 수준을 목표로 해요."]}
+};
+const LABEL = {
+ q5:{phone:"스마트폰으로 따라 하는 방법으로 진행해요.",pc:"노트북과 스마트폰 모두 쓸 수 있게 안내해요.",tab:"태블릿 화면 기준으로 같이 확인해요.",none:"기기가 없으신 분은 옆자리 분과 함께하거나 강사가 도와드려요."},
+ q6:{ok:"구글 계정이 준비되어 있어요.",forgot:"비밀번호가 헷갈리시면 수업 시작 전에 강사가 같이 확인해 드려요. 비밀번호를 다른 사람에게 알려 주지는 마세요.",no:"구글 계정이 없으면 수업 시작 전에 만드는 시간을 함께 가져요.",unknown:"계정이 있는지는 수업 시작 전에 같이 확인해 드려요."},
+ q7:{easy:"",slow:"천천히 입력해도 되도록 시간을 충분히 드려요.",voice:"말로 입력하는 방법(음성 입력)을 알려 드려요.",hard:"입력이 어려우신 분은 말로 입력하거나 짧은 문장으로 시작해요."},
+ q8:{wrong:"틀린 답을 알아보는 확인법을 알려 드려요.",privacy:"넣으면 안 되는 정보와 안전하게 쓰는 법을 다뤄요.",hard:"쉬운 말로, 한 단계씩 진행해요.",fake:"가짜 정보·사기를 가려내는 방법을 짚어요.",job:"AI 시대의 일자리와 준비 방법을 이야기해요.",cost:"무료로 쓸 수 있는 범위 중심으로 안내해요.",none:""},
+ q9:{daily:"일상 정보",write:"글쓰기·자기소개서",job:"일자리·재취업",media:"사진·영상·그림",biz:"가게·사업 홍보",family:"가족·손주와 소통",work:"업무 정리·자동화",other:"둘러보기"}
+};
+
+const state = {i:-1, ans:{}, done:false, sent:false};
+const $ = id => document.getElementById(id);
+function show(id){["start","quiz","result"].forEach(s=>$(s).classList.toggle("hidden",s!==id)); window.scrollTo(0,0);}
+
+function render(){
+  const q=Q[state.i];
+  $("bar").style.width = (state.i/Q.length*100)+"%";
+  $("pcount").textContent = (state.i+1)+" / "+Q.length;
+  $("part").textContent = q.part;
+  $("qtitle").textContent = q.title;
+  $("qhint").textContent = q.hint||"";
+  $("warn").textContent = "";
+  const body=$("qbody"); body.innerHTML="";
+  if(q.type==="text"){
+    const t=document.createElement("textarea");
+    t.maxLength=200; t.value=state.ans[q.id]||""; t.setAttribute("aria-label",q.title);
+    t.addEventListener("input",()=>{state.ans[q.id]=t.value;});
+    body.appendChild(t);
+  } else {
+    const wrap=document.createElement("div"); wrap.className="opts"+(q.type==="multi"?" multi":"");
+    wrap.setAttribute("role",q.type==="multi"?"group":"radiogroup");
+    q.options.forEach(o=>{
+      const [v,label,,excl]=o;
+      const lab=document.createElement("label"); lab.className="opt";
+      const inp=document.createElement("input"); inp.type=q.type==="multi"?"checkbox":"radio"; inp.name=q.id; inp.value=v;
+      const cur=state.ans[q.id];
+      inp.checked = q.type==="multi" ? (cur||[]).includes(v) : cur===v;
+      lab.classList.toggle("on",inp.checked);
+      const mk=document.createElement("span"); mk.className="mark";
+      const tx=document.createElement("span"); tx.textContent=label;
+      lab.append(inp,mk,tx);
+      inp.addEventListener("change",()=>onPick(q,v,!!excl,inp.checked));
+      wrap.appendChild(lab);
+    });
+    body.appendChild(wrap);
+  }
+  $("prevBtn").style.visibility = state.i===0 ? "hidden" : "visible";
+  $("nextBtn").textContent = state.i===Q.length-1 ? "결과 보기" : "다음";
+}
+function onPick(q,v,excl,checked){
+  if(q.type==="single"){ state.ans[q.id]=v; }
+  else {
+    let arr=(state.ans[q.id]||[]).slice();
+    if(checked){
+      if(excl) arr=[v];
+      else {
+        const exclVals=q.options.filter(o=>o[3]).map(o=>o[0]);
+        arr=arr.filter(x=>!exclVals.includes(x));
+        if(q.max && arr.length>=q.max){
+          render();
+          $("warn").textContent=q.max+"개까지 고를 수 있어요. 하나를 먼저 눌러서 풀어 주세요.";
+          return;
+        }
+        arr.push(v);
+      }
+    } else arr=arr.filter(x=>x!==v);
+    state.ans[q.id]=arr;
+  }
+  render();
+}
+function answered(q){
+  if(q.type==="text") return true;
+  const a=state.ans[q.id];
+  return q.type==="multi" ? (a&&a.length>0) : !!a;
+}
+function looksPersonal(s){
+  return /@/.test(s) || /\d[\d\s-]{7,}\d/.test(s);
+}
+function next(){
+  const q=Q[state.i];
+  if(!answered(q)){ $("warn").textContent="하나를 골라 주세요. 모르시면 '잘 모르겠어요'를 골라도 돼요."; return; }
+  if(q.type==="text" && looksPersonal(state.ans[q.id]||"")){
+    $("warn").textContent="전화번호나 이메일처럼 보이는 내용이 있어요. 지우고 다시 적어 주세요."; return;
+  }
+  if(state.i<Q.length-1){ state.i++; render(); window.scrollTo(0,0); }
+  else finish();
+}
+function calcScore(){
+  let s=0;
+  Q.forEach(q=>{
+    if(q.id==="q1"||q.id==="q4"){ const o=q.options.find(x=>x[0]===state.ans[q.id]); s+= o?o[2]:0; }
+    if(q.score){ const a=(state.ans[q.id]||[]).filter(v=>!q.options.find(o=>o[0]===v)[3]); s+=q.score(a.length); }
+  });
+  return s;
+}
+function levelOf(s){ return s<=3?1:(s<=8?2:3); }
+function finish(){
+  const score=calcScore(), lv=levelOf(score), L=LEVELS[lv];
+  state.score=score; state.level=lv;
+  $("bar").style.width="100%";
+  $("levelBox").className="level "+L.cls;
+  $("lvLabel").textContent="지금 알려 주신 내용으로 보면";
+  $("lvName").textContent=L.name;
+  $("lvDesc").textContent=L.desc;
+  $("lvPlan").innerHTML=""; L.plan.forEach(t=>{const li=document.createElement("li");li.textContent=t;$("lvPlan").appendChild(li);});
+  // 개인 맞춤
+  const pb=$("personalBody"); pb.innerHTML="";
+  const lines=[];
+  const a=state.ans;
+  if(a.q9 && a.q9.length){ const p=document.createElement("p"); p.textContent="해 보고 싶은 것:"; pb.appendChild(p);
+    const c=document.createElement("div"); c.className="chips"; a.q9.forEach(v=>{const s=document.createElement("span");s.className="chip";s.textContent=LABEL.q9[v];c.appendChild(s);}); pb.appendChild(c); }
+  ["q6","q5","q7"].forEach(k=>{ const t=LABEL[k][a[k]]; if(t) lines.push(t); });
+  (a.q8||[]).forEach(v=>{ const t=LABEL.q8[v]; if(t) lines.push(t); });
+  if(a.q10==="slow") lines.push("천천히 진행해 달라고 하셨어요. 속도를 맞출게요.");
+  if(a.q10==="fast") lines.push("빠르게 많이 알고 싶다고 하셨어요. 심화 내용도 준비할게요.");
+  if(lines.length){ const ul=document.createElement("ul"); ul.className="plain"; lines.forEach(t=>{const li=document.createElement("li");li.textContent=t;ul.appendChild(li);}); pb.appendChild(ul); }
+  const note=(a.q11||"").trim();
+  if(note){ const p=document.createElement("p"); p.className="note"; p.textContent="적어 주신 말씀은 강사가 읽어 볼게요."; pb.appendChild(p); }
+  // 전달 영역
+  const canSend=!!CONFIG.SUBMIT_URL;
+  $("sendArea").classList.toggle("hidden",!canSend);
+  $("manualArea").classList.toggle("hidden",canSend);
+  $("sumText").textContent=summaryText();
+  state.sent=false; $("agree").checked=false; $("sendBtn").disabled=true; $("sendMsg").textContent="";
+  show("result");
+}
+function payload(){
+  const a=state.ans;
+  return {v:1,course:CONFIG.courseTitle,session:CONFIG.session,level:state.level,score:state.score,
+    q1:a.q1,q2:(a.q2||[]).join(","),q3:(a.q3||[]).join(","),q4:a.q4,q5:a.q5,q6:a.q6,q7:a.q7,
+    q8:(a.q8||[]).join(","),q9:(a.q9||[]).join(","),q10:a.q10,q11:(a.q11||"").trim()};
+}
+function summaryText(){
+  const p=payload();
+  return "["+p.course+" "+p.session+"] 단계 "+p.level+" (점수 "+p.score+"/12)\n"+
+   "경험 "+p.q1+" · 도구 "+(p.q2||"-")+" · 해본 일 "+(p.q3||"-")+" · 질문법 "+p.q4+"\n"+
+   "기기 "+p.q5+" · 구글계정 "+p.q6+" · 입력 "+p.q7+"\n"+
+   "걱정 "+(p.q8||"-")+" · 하고 싶은 것 "+(p.q9||"-")+" · 속도 "+p.q10+
+   (p.q11?"\n한 줄: "+p.q11:"");
+}
+async function send(){
+  if(state.sent) return;
+  $("sendBtn").disabled=true; $("sendMsg").style.color="";
+  try{
+    await fetch(CONFIG.SUBMIT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload())});
+    state.sent=true;
+    $("sendMsg").style.color="var(--g)";
+    $("sendMsg").textContent="보냈어요. (화면에 '확인' 표시는 뜨지 않아요. 강사가 받았는지 수업에서 확인해 드려요.)";
+  }catch(e){
+    $("sendBtn").disabled=false;
+    $("sendMsg").style.color="var(--red)";
+    $("sendMsg").textContent="보내지 못했어요. 인터넷 연결을 확인하고 다시 눌러 주세요. 안 되면 강사님께 화면을 보여 주세요.";
+    $("manualArea").classList.remove("hidden");
+  }
+}
+async function copy(){
+  const t=$("sumText").textContent;
+  try{ await navigator.clipboard.writeText(t); $("copyMsg").style.color="var(--g)"; $("copyMsg").textContent="복사했어요."; }
+  catch(e){
+    const r=document.createRange(); r.selectNodeContents($("sumText")); const s=getSelection(); s.removeAllRanges(); s.addRange(r);
+    $("copyMsg").style.color="var(--gold)"; $("copyMsg").textContent="글자를 눌러 선택해 두었어요. 직접 복사해 주세요.";
+  }
+}
+$("courseTag").textContent=CONFIG.courseTitle+" · "+CONFIG.session;
+$("startBtn").addEventListener("click",()=>{state.i=0;show("quiz");render();});
+$("prevBtn").addEventListener("click",()=>{ if(state.i>0){state.i--;render();window.scrollTo(0,0);} });
+$("nextBtn").addEventListener("click",next);
+$("agree").addEventListener("change",e=>{ $("sendBtn").disabled=!e.target.checked||state.sent; });
+$("sendBtn").addEventListener("click",send);
+$("copyBtn").addEventListener("click",copy);
+$("againBtn").addEventListener("click",()=>{ state.i=-1; state.ans={}; state.sent=false; show("start"); });
+</script>
+</body>
+</html>
